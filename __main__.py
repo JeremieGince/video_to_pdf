@@ -171,7 +171,7 @@ class VideoReader:
         vidcap = cv2.VideoCapture(mp4_filename)
         audioclip = AudioFileClip(mp4_filename) if self.take_speech else None
 
-        pdf = PDF(os.path.basename(mp4_filename).replace(".mp4", ''))
+        pdf = PDF(os.path.basename(mp4_filename).replace(".mp4", ''), take_text=self.take_speech)
         tapes = Tapes()
         cv2.startWindowThread()
 
@@ -218,5 +218,5 @@ if __name__ == '__main__':
 
     for mp4_file in tqdm.tqdm(os.listdir(folder_path)):
         if mp4_file.endswith(".mp4"):
-            VideoReader(take_speech=True, verbose=False, language="fr-CA").make_pdf_from_mp4(folder_path+"/"+mp4_file)
+            VideoReader(take_speech=False, verbose=False, language="fr-CA").make_pdf_from_mp4(folder_path+"/"+mp4_file)
 
