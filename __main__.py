@@ -10,6 +10,7 @@ import io
 from moviepy.editor import AudioFileClip
 import speech_recognition as sr
 import tqdm
+import glob
 
 
 def is_array_in_set(array_set, array: np.ndarray) -> bool:
@@ -106,7 +107,8 @@ class PDF:
         self._take_text = kwargs.get("take_text", True)
         self.img_size = (1_200, 750)
         self.page_size = (1_450, 1_200) if self._take_text else self.img_size
-        self.canvas = Canvas(f"resultsdata/{name}.pdf", pagesize=self.page_size)
+        self.saving_folder = kwargs.get("saving_folder", "resultsdata")
+        self.canvas = Canvas(f"{self.saving_folder}/{name}.pdf", pagesize=self.page_size)
         self.font_size = 18
         self.canvas.setFont("Times-Roman", self.font_size)
 
@@ -162,6 +164,7 @@ class VideoReader:
         self.dt = dt
         self.take_speech = take_speech
         self.verbose = verbose
+        self.saving_folder = kwargs.get("saving_folder", 'resultsdata')
         self.kwargs = kwargs
 
         os.makedirs("tempdata", exist_ok=True)
@@ -171,7 +174,9 @@ class VideoReader:
         vidcap = cv2.VideoCapture(mp4_filename)
         audioclip = AudioFileClip(mp4_filename) if self.take_speech else None
 
-        pdf = PDF(os.path.basename(mp4_filename).replace(".mp4", ''), take_text=self.take_speech)
+        pdf = PDF(os.path.basename(mp4_filename).replace(".mp4", ''),
+                  take_text=self.take_speech,
+                  saving_folder=self.saving_folder,)
         tapes = Tapes()
         cv2.startWindowThread()
 
@@ -214,9 +219,13 @@ class VideoReader:
 
 
 if __name__ == '__main__':
-    folder_path = r"C:\Users\gince\Documents\Laval_University\cours_A20\Apprentissage_par_renforcement_IFT-4201\Contenue\Semaine 4 - optimisme face incertitude"
+    folder_path = r"C:\Users\gince\Documents\Laval_University\cours_A20\Apprentissage_par_renforcement_IFT-4201\Contenue\Semaine 5 - Les approches Bayésiennes"
 
-    for mp4_file in tqdm.tqdm(os.listdir(folder_path)):
-        if mp4_file.endswith(".mp4"):
-            VideoReader(take_speech=False, verbose=False, language="fr-CA").make_pdf_from_mp4(folder_path+"/"+mp4_file)
+    for mp4_file_path in tqdm.tqdm(glob.glob(os.path.join(folder_path, '*.mp4'))):
+        VideoReader(
+            take_speech=True,
+            verbose=False,
+            language="fr-CA",
+            saving_folder=folder_path,
+        ).make_pdf_from_mp4(mp4_file_path)
 
