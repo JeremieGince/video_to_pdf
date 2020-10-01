@@ -8,9 +8,14 @@ if __name__ == '__main__':
     else:
         folder_path = r"C:\Users\gince\Documents\Laval_University\cours_A20\Apprentissage_par_renforcement_IFT-4201\Contenue\Semaine 5 - Les approches Bayésiennes"
 
+    if len(sys.argv) > 2:
+        language = sys.argv[2]
+    else:
+        language = "fr-CA"
+
     VideoReader(
         take_speech=True,
         verbose=False,
-        language="fr-CA",
+        language=language,
     ).make_pdf_from_folder(folder_path)
 
