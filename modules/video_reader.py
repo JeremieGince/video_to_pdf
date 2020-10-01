@@ -5,7 +5,7 @@ from moviepy.editor import AudioFileClip
 import tqdm
 import glob
 from PyPDF2 import PdfFileMerger, PdfFileReader
-from Modules.tape import TapeFrame, Tapes, PDF
+from modules.tape import TapeFrame, Tapes, PDF
 
 
 class VideoReader:

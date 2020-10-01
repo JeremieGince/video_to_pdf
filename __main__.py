@@ -1,4 +1,4 @@
-from Modules.video_reader import VideoReader
+from modules.video_reader import VideoReader
 
 
 if __name__ == '__main__':

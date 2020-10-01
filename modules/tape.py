@@ -7,7 +7,7 @@ from reportlab.lib.utils import ImageReader
 import io
 from moviepy.editor import AudioFileClip
 import speech_recognition as sr
-from Modules import util
+from modules import util
 
 
 class TapeFrame:
