@@ -36,10 +36,10 @@ class TapeFrame:
             self._text = ""
             return None
 
-        self.audioclip.write_audiofile(r"tempdata/audio.wav", verbose=False, logger=None)
-        with sr.AudioFile(r"tempdata/audio.wav") as source:
-            audio_file = self._reco.record(source)
         try:
+            self.audioclip.write_audiofile(r"tempdata/audio.wav", verbose=False, logger=None)
+            with sr.AudioFile(r"tempdata/audio.wav") as source:
+                audio_file = self._reco.record(source)
             self._text = self._reco.recognize_google(audio_file, language=self.kwargs.get("language", "fr-CA"))
         except Exception:
             self._text = ""
